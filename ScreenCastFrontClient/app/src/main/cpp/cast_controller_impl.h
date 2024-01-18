@@ -23,8 +23,8 @@ namespace vcast {
             Impl(std::unique_ptr<IStreamSocketClient> tcp_sock_client, TcpConfigInfo info) 
                 : socket_client_{std::move(tcp_sock_client)}, mInfo{std::move(info)} {
 
-                LOGD("======CastController::Impl info.tcp_conn_info.ip_addr: %s", mInfo.tcp_conn_info.ip_addr.c_str());
-                LOGD("======CastController::Impl info.tcp_conn_info.port: %d", mInfo.tcp_conn_info.port);
+                LOGD("CastController::Impl info.tcp_conn_info.ip_addr: %s", mInfo.tcp_conn_info.ip_addr.c_str());
+                LOGD("CastController::Impl info.tcp_conn_info.port: %d", mInfo.tcp_conn_info.port);
             }
 
             ~Impl() {
@@ -40,9 +40,9 @@ namespace vcast {
             IOResult start() {
                 std::string error_msg = "";
                 int try_times = 0;
-                LOGD("======cast_controller_impl start() ");
+
                 while (try_times < mConnectTimes && mStatusCode != 1 ) {
-                    LOGD("======try_times %d cast_controller_impl start() ",try_times);
+                    LOGD("try_times %d socket_client_->Connect() ",try_times);
                     auto[connected, error_msg] = socket_client_->Connect();
                     mStatusCode = connected;
                     if (!connected) {

@@ -46,11 +46,10 @@ public:
     Impl(const std::string& remote_server_ip,const int remote_server_port)
     {
         memset(&remote_, 0, sizeof(remote_));
-        LOGE( "=====remote server ip_addr: %s, remote server port: %d", remote_server_ip.c_str(),remote_server_port);
         remote_.sin_family = AF_INET;
         remote_.sin_port=htons(remote_server_port);
-        inet_pton(AF_INET,"127.0.0.1",&(remote_.sin_addr));
-        // remote_.sin_addr.s_addr=inet_addr(remote_server_ip.c_str());
+        inet_pton(AF_INET,remote_server_ip.c_str(),&(remote_.sin_addr));
+        LOGE( "Remote server ip_addr: %s, remote server port: %d", remote_server_ip.c_str(),remote_server_port);
     }
     ~Impl() { Close(); }
 
@@ -64,14 +63,10 @@ public:
         if (fd_ < 0) {
             LOGE("failed to create socket fd");
         }
-        LOGE( "++++++ socket() args: fd: %d, remote server ip_addr: %x, remote server port: %d", fd_, remote_.sin_addr.s_addr,remote_.sin_port);
+        LOGE( "Socket() args: fd: %d, remote server ip_addr: %x, remote server port: %d", fd_, remote_.sin_addr.s_addr,remote_.sin_port);
         connected_ = ::connect(fd_, (struct sockaddr*)&remote_, sizeof(struct sockaddr)) == 0;
         if (!connected_) {
-            std::cout << "Connect() failed args: fd: " << fd_
-                      << ", remote server ip_addr: " << remote_.sin_addr.s_addr
-                      << ", remote server port: " << remote_.sin_port<< "\n";
             error_msg = std::strerror(errno);
-
             LOGE( "Connect() Failed args: fd: %d, remote server ip_addr: %x, "
                                    "remote server port: %d", fd_, remote_.sin_addr.s_addr,remote_.sin_port);
         }
