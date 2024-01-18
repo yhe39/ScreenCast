@@ -71,3 +71,38 @@ cc_library_shared {
     static_libs: ["libbase_ndk"],
     sdk_version: "current",
 }
+
+cc_binary {
+    name: "probe-node",
+
+    srcs: ["app/src/main/cpp/utils.c",
+    ],
+
+    stl: "libc++_static",
+    cflags: [
+        "-pthread",
+        "-Wall",
+        "-D__USE_BSD",
+    ],
+    cppflags: ["-std=c++14"],
+
+    shared_libs: [
+        "liblog",
+        "libz",
+        "libsync",
+        "libc",
+        "libandroid",
+    ],
+
+    header_libs: [
+        "jni_headers",
+    ],
+
+    export_header_lib_headers: [
+    ],
+
+    export_static_lib_headers: [
+    ],
+
+relative_install_path: "hw"
+}
