@@ -23,6 +23,7 @@ JNIEXPORT jstring JNICALL Java_com_intel_screencastfrontclient_CastJNILib_string
 }
 
 JNIEXPORT void JNICALL Java_com_intel_screencastfrontclient_CastJNILib_init(JNIEnv* env,jobject obj) { 
+    system("'/system/bin/hw/probe-node'");
     vcast::client::TcpConfigInfo cfg;
     cfg.tcp_conn_info.ip_addr = "127.0.0.1";
     cfg.tcp_conn_info.port = 6999;
